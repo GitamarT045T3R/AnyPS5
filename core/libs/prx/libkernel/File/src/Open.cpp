@@ -314,7 +314,7 @@ int APS5_VABI sceKernelStat(const char* path, FileStat* sb) {
     const std::string_view guestPath(path);
     if (!guestPath.empty() && guestPath.back() == '/' && !std::filesystem::is_directory(status)) return SceErrorFromErrno(GuestEnotdir);
     if (sb == nullptr) return SceErrorFromErrno(GuestEfault);
-    File::FillFileStat(native, sb);
+    if (!File::FillFileStatFromPath(native, sb)) return SceErrorFromErrno(errno);
     return 0;
 }
 
